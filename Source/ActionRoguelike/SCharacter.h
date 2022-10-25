@@ -10,6 +10,7 @@ class USpringArmComponent;  // Forward-declared classes
 class UCameraComponent;
 class USInteractionComponent;
 class UAnimMontage;
+class USAttributeComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
@@ -26,9 +27,6 @@ protected:
 
 	FTimerHandle TimerHandle_PrimaryAttack;
 
-
-
-
 public:
 	// Sets default values for this character's properties
 	ASCharacter();
@@ -43,6 +41,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	USInteractionComponent* InteractionComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	USAttributeComponent* AttributeComp;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -59,5 +61,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };

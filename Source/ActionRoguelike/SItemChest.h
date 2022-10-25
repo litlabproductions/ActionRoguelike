@@ -16,7 +16,7 @@ class ACTIONROGUELIKE_API ASItemChest : public AActor, public ISGameplayInterfac
 
 public:
 	UPROPERTY(EditAnywhere)
-		float TargetPitch;
+	float TargetPitch;
 	void Interact_Implementation(APawn* InstigatorPawn);  // Syntax is because we used "UFUNCTION(BlueprintNativeEvent)"
 
 protected:
