@@ -14,6 +14,14 @@ USAttributeComponent::USAttributeComponent()
 	// ...
 }
 
+bool USAttributeComponent::IsAlive() const
+{
+	if (Health > 0.0f)
+		return true;
+	else
+		return false;
+}
+
 bool USAttributeComponent::ApplyHealthChange(float Delta)
 {
 	Health += Delta;

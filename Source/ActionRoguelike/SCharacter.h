@@ -1,13 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
-class USpringArmComponent;  // Forward-declared classes
 class UCameraComponent;
+class USpringArmComponent;
 class USInteractionComponent;
 class UAnimMontage;
 class USAttributeComponent;
@@ -21,44 +19,65 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	TSubclassOf<AActor> ProjectileClass;
-	
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> BlackHoleProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> DashProjectileClass;
+
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* AttackAnim;
 
 	FTimerHandle TimerHandle_PrimaryAttack;
+	FTimerHandle TimerHandle_BlackholeAttack;
+	FTimerHandle TimerHandle_Dash;
 
-public:
-	// Sets default values for this character's properties
-	ASCharacter();
-
-protected:
-
-	UPROPERTY(VisibleAnywhere)
-	USpringArmComponent* SpringArmComp;
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+		float AttackAnimDelay;
 
 	UPROPERTY(VisibleAnywhere)
-	UCameraComponent* CameraComp;
+		USpringArmComponent* SpringArmComp;
 
 	UPROPERTY(VisibleAnywhere)
-	USInteractionComponent* InteractionComp;
+		UCameraComponent* CameraComp;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USAttributeComponent* AttributeComp;
+	UPROPERTY(VisibleAnywhere)
+		USInteractionComponent* InteractionComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+		USAttributeComponent* AttributeComp;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void MoveForward(float Value);
 
-	void MoveForward(float value);
-	void MoveRight(float value);
+	void MoveRight(float Value);
+
 	void PrimaryAttack();
-	void PrimaryInteract();
+
 	void PrimaryAttack_TimeElapsed();
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void BlackHoleAttack();
 
-	// Called to bind functionality to input
+	void BlackholeAttack_TimeElapsed();
+
+	void Dash();
+
+	void Dash_TimeElapsed();
+
+	// Re-use spawn logic between attacks
+	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+
+	void PrimaryInteract();
+
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
+
+	virtual void PostInitializeComponents() override;
+
+public:
+
+	ASCharacter();
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 };
