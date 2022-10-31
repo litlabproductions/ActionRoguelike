@@ -6,13 +6,12 @@
 #include <GameFramework/ProjectileMovementComponent.h>
 #include <Particles/ParticleSystemComponent.h>
 #include "Kismet/GameplayStatics.h"
+#include <Components/AudioComponent.h>
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ASProjectileBase::ASProjectileBase()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
 	SphereComp->SetCollisionProfileName("Projectile");
 	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnActorHit);
@@ -21,11 +20,14 @@ ASProjectileBase::ASProjectileBase()
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(RootComponent);
 
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("AudioComp");
+	AudioComp->SetupAttachment(RootComponent);
+
 	MoveComp = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMoveComp");
 	MoveComp->bRotationFollowsVelocity = true;
 	MoveComp->bInitialVelocityInLocalSpace = true;
 	MoveComp->ProjectileGravityScale = 0.0f;
-	MoveComp->InitialSpeed = 8000;
+	MoveComp->InitialSpeed = 8000;	
 }
 
 void ASProjectileBase::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -41,11 +43,13 @@ void ASProjectileBase::Explode_Implementation()
 	if (ensure(!IsPendingKill()))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
+		
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation());
 
-		EffectComp->DeactivateSystem();
+		//EffectComp->DeactivateSystem();
 
-		MoveComp->StopMovementImmediately();
-		SetActorEnableCollision(false);
+		//MoveComp->StopMovementImmediately();
+		//SetActorEnableCollision(false);
 
 		Destroy();
 	}

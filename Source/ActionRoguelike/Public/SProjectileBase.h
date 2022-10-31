@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <Particles/ParticleSystemComponent.h>
+
 #include "SProjectileBase.generated.h"
 
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
-
+class UAudioComponent;
+class USoundCue;
 
 UCLASS(ABSTRACT)
 class ACTIONROGUELIKE_API ASProjectileBase : public AActor
@@ -18,6 +20,12 @@ class ACTIONROGUELIKE_API ASProjectileBase : public AActor
 	GENERATED_BODY()
 
 protected:
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UAudioComponent* AudioComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	USoundCue* ImpactSound;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects")
 	UParticleSystem* ImpactVFX;
