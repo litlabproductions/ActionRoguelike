@@ -35,7 +35,8 @@ bool USAttributeComponent::ApplyHealthChange(float Delta)
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 
 	float ActualDelta = Health - OldHealth;
-	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta); // @fixme: Still nullptr for InstigatorActor parameter
+	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
+	//OnHealthChanged.Broadcast(InstigatorActor, this, Health, ActualDelta);
 
 	return ActualDelta != 0;
 }

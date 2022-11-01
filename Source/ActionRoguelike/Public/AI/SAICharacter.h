@@ -19,8 +19,15 @@ public:
 	ASAICharacter();
 
 protected:
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	FName TimeToHitParamName;
+
+	void SetTargetActor(AActor* NewTarget);
 
 	virtual void PostInitializeComponents() override;
+
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPawnSensingComponent* PawnSensingComp;

@@ -7,6 +7,7 @@
 #include "AI/SAICharacter.h"
 #include "SAttributeComponent.h"
 #include "EngineUtils.h"
+#include <DrawDebugHelpers.h>
 
 ASGameModeBase::ASGameModeBase()
 {
@@ -24,6 +25,34 @@ void ASGameModeBase::StartPlay()
 
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
+	// Make sure we have a limit for the number of bots in a level
+	int32 NrOfAliveBots = 0;
+
+	// Iterator allows traversal through all SCharacter and derived instances
+	for (TActorIterator<ASAICharacter> It(GetWorld()); It; ++It)
+	{
+		ASAICharacter* Bot = *It;
+
+		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
+		if (AttributeComp && AttributeComp->IsAlive())
+			NrOfAliveBots++;
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Found %i alive bots."), NrOfAliveBots);
+	float MaxBotCount = 10.0f;
+
+	// Curve specifies how many bots are aloud during certain periods of gameplay
+	if (DifficultyCurve)
+		MaxBotCount = DifficultyCurve->GetFloatValue(GetWorld()->TimeSeconds);
+
+	// Return if we're past the bot limit
+	if (NrOfAliveBots >= MaxBotCount)
+	{
+		UE_LOG(LogTemp, Log, TEXT("AI maximum bot capacity. Skipping bot spawn."));
+		return;
+	}
+
+
 	// Will give us event trigger once we're done
 	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
 	if (ensure(QueryInstance))
@@ -38,31 +67,14 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 		return;
 	}
 
-	// Make sure we have a limit for the number of bots in a level
-	int32 NrOfAliveBots = 0;
-	for (TActorIterator<ASAICharacter> It(GetWorld()); It; ++It)
-	{
-		ASAICharacter* Bot = *It;
-
-		USAttributeComponent* AttributeComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
-		if (ensure(AttributeComp) && AttributeComp->IsAlive())
-			NrOfAliveBots++;
-	}
-
-	float MaxBotCount = 10.0f;
-
-	// Curve specifies how many bots are aloud during certain periods of gameplay
-	if (DifficultyCurve)
-		MaxBotCount = DifficultyCurve->GetFloatValue(GetWorld()->TimeSeconds);
-	
-	// Return if we're past the bot limit
-	if (NrOfAliveBots >= MaxBotCount)
-		return;
-
 	// Get list of locations
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
-	
+
 	// Spawn AI at first (valid) location in returned query list
 	if (Locations.IsValidIndex(0))
+	{
 		GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
+		// Track all the used spawn locations
+		DrawDebugSphere(GetWorld(), Locations[0], 50.0f, 20, FColor::Blue, false, 60.0f);
+	}
 }
