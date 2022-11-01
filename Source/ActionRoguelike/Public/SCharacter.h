@@ -18,6 +18,9 @@ class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 
 protected:
 
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	FName TimeToHitParamName;
+
 	UPROPERTY(EditAnywhere, Category = "Components")
 	UMeshComponent* MeshComp;
 
