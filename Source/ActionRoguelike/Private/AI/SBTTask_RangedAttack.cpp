@@ -12,6 +12,7 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 
 	if (ensure(MyController))
 	{
+		// Get AI Controller
 		ACharacter* MyPawn = Cast<ACharacter>(MyController->GetPawn());
 		if (MyPawn == nullptr)
 		{
@@ -20,6 +21,7 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 
 		FVector MuzzleLocation = MyPawn->GetMesh()->GetSocketLocation("Muzzle_01");
 
+		// Get Player Character
 		AActor* TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
 		if (TargetActor == nullptr)
 		{
