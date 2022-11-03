@@ -23,6 +23,18 @@ void ASGameModeBase::StartPlay()
 	GetWorldTimerManager().SetTimer(TimerHandle_SpawnBots, this, &ASGameModeBase::SpawnBotTimerElapsed, SpawnTimerInterval, true);
 }
 
+void ASGameModeBase::KillAll()
+{
+	// Iterator allows traversal through all SCharacter and derived instances
+	for (TActorIterator<ASAICharacter> It(GetWorld()); It; ++It)
+	{
+		ASAICharacter* Bot = *It;
+		USAttributeComponent* AttributeComp = USAttributeComponent::GetAttributes(Bot);
+		if (ensure(AttributeComp) && AttributeComp->IsAlive())
+			AttributeComp->Kill(this);  // @fixme: Pass in player? for kill credit
+	}
+}
+
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
 	// Make sure we have a limit for the number of bots in a level

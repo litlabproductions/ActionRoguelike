@@ -9,7 +9,7 @@ ASDashProjectile::ASDashProjectile()
 	TeleportDelay = 0.2f;
 	DetonateDelay = 0.2f;
 
-	MoveComp->InitialSpeed = 6000.f;
+	MoveComp->InitialSpeed = 6000.0f;
 }
 
 
