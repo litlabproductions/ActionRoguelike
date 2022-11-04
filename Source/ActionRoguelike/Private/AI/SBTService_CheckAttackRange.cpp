@@ -7,6 +7,7 @@ USBTService_CheckAttackRange::USBTService_CheckAttackRange()
 	MaxAttackRange = 2000.f;
 }
 
+
 void USBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
