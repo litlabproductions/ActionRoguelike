@@ -4,12 +4,16 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 
 
+
+
+
+
 ASDashProjectile::ASDashProjectile()
 {
 	TeleportDelay = 0.2f;
 	DetonateDelay = 0.2f;
 
-	MoveComp->InitialSpeed = 6000.0f;
+	MoveComp->InitialSpeed = 6000.f;
 }
 
 
@@ -36,7 +40,7 @@ void ASDashProjectile::Explode_Implementation()
 	FTimerHandle TimerHandle_DelayedTeleport;
 	GetWorldTimerManager().SetTimer(TimerHandle_DelayedTeleport, this, &ASDashProjectile::TeleportInstigator, TeleportDelay);
 
-	// Skip base implementation as it will destroy actor
+	// Skip base implementation as it will destroy actor (we need to stay alive a bit longer to finish the 2nd timer)
 	//Super::Explode_Implementation();
 }
 
