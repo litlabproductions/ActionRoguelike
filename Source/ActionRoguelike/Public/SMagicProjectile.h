@@ -10,11 +10,11 @@ class ACTIONROGUELIKE_API ASMagicProjectile : public ASProjectileBase // Re-pare
 {
 	GENERATED_BODY()
 
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	float DamageAmount = 20;
+
 protected:
-
-	UPROPERTY(EditAnywhere, Category = "Damage")
-	float DamageAmount;
-
 	UFUNCTION()
 	void OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
