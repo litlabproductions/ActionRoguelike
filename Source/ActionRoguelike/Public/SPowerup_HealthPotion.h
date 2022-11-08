@@ -22,6 +22,8 @@ protected:
 		UStaticMeshComponent* MeshComp;
 
 	// float health amount?
+	UPROPERTY(EditAnywhere, Category = "HealthPotion")
+	int32 CreditCost;
 
 public:
 
