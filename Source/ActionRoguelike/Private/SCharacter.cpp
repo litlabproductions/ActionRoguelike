@@ -1,4 +1,4 @@
-#include "SCharacter.h"
+ #include "SCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "DrawDebugHelpers.h"

@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "SProjectileBase.h"
+#include "GameplayTagContainer.h"
 #include "SMagicProjectile.generated.h"
 
 UCLASS()
@@ -13,6 +14,9 @@ class ACTIONROGUELIKE_API ASMagicProjectile : public ASProjectileBase // Re-pare
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
 	float DamageAmount = 20;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FGameplayTag ParryTag;
 
 protected:
 	UFUNCTION()

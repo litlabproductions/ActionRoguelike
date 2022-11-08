@@ -9,7 +9,7 @@ public class ActionRoguelike : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		// Unresolved symbol? --> Chances are you have to add it here
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTasks", "UMG"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "GameplayTasks", "UMG", "GameplayTags"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
