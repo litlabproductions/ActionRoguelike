@@ -1,9 +1,6 @@
 #include "SAction.h"
 #include "SActionComponent.h"
 
-
-
-
 bool USAction::CanStart_Implementation(AActor* Instigator)
 {
 	if (IsRunning())
@@ -21,11 +18,11 @@ bool USAction::CanStart_Implementation(AActor* Instigator)
 	return true;
 }
 
-
 void USAction::StartAction_Implementation(AActor* Instigator)
 {
 	UE_LOG(LogTemp, Log, TEXT("Running: %s"), *GetNameSafe(this));
 
+	// Set the Gameplay tags for this action
 	USActionComponent* Comp = GetOwningComponent();
 	Comp->ActiveGameplayTags.AppendTags(GrantsTags);
 

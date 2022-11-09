@@ -16,11 +16,8 @@ class ACTIONROGUELIKE_API ASPowerup_Coin : public ASPowerupActor
 
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
-	UStaticMeshComponent* MeshComp;
-
 	UPROPERTY(EditAnywhere, Category = "Credits")
-		int32 CreditsAmount;
+	int32 CreditsAmount;
 
 public:
 
