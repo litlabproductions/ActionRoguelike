@@ -18,7 +18,6 @@ ASItemChest::ASItemChest()
 
 	TargetPitch = 110;
 
-	// Tells UE that it should listen to this classes events during multilayer and update the server accordingly with the variables that it marks as 'important'
 	SetReplicates(true);
 }
 
