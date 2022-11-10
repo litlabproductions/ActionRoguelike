@@ -11,6 +11,9 @@ USAttributeComponent::USAttributeComponent()
 {
 	HealthMax = 100;
 	Health = HealthMax;
+
+	RageMax = 100;
+	Rage = 0;
 }
 
 bool USAttributeComponent::Kill(AActor* InstigatorActor)

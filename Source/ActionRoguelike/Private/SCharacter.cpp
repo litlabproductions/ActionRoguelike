@@ -6,6 +6,7 @@
 #include "SInteractionComponent.h"
 #include "SAttributeComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include <DrawDebugHelpers.h>
 #include "SActionComponent.h"
 
 // Sets default values
@@ -134,13 +135,39 @@ void ASCharacter::PrimaryInteract()
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta)
 {
 	if (Delta < 0.0f)
-	{
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParamName, GetWorld()->TimeSeconds);
+
+	// Rage Implementation
+	int32 absDelta = abs(Delta);
+
+	if (OwningComp->Rage + (Delta / 5) <= OwningComp->RageMax)	// If new rage value will be >= maxRage of 100
+	{
+		OwningComp->Rage += absDelta / 5;
+		UE_LOG(LogTemp, Log, TEXT("Rage Value: %i"), OwningComp->Rage);
 	}
 
+	//If rage is > 0, deduct rage every 2 seconds 
+	/*
+
+	if (OwningComp->Rage > 0)
+	{
+		FTimerHandle TimeHandle_DeductRage;
+		FTimerDelegate Delegate;
+		Delegate.BindUFunction(this, "DeductRageElapsed", OwningComp);
+
+		float RespawnDelay = 2.0f;
+		GetWorldTimerManager().SetTimer(TimeHandle_DeductRage, Delegate, 2.0f, false);
+	}
+	*/
 	if (NewHealth <= 0.0f && Delta < 0.0f)
 	{
 		APlayerController* PC = Cast<APlayerController>(GetController());
 		DisableInput(PC);
 	}
+}
+
+void ASCharacter::DeductRageElapsed(USAttributeComponent* OwningComp)
+{
+	if (ensure(OwningComp))
+		OwningComp->Rage -= 1;
 }

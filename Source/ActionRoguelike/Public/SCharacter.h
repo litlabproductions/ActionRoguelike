@@ -19,6 +19,11 @@ class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 
 protected:
 
+	//FTimerHandle TimerHandle_DeductRage;
+
+	//UPROPERTY(EditDefaultsOnly, Category = "AI")
+		//float DeductRageTimerInterval;
+
 	UPROPERTY(VisibleAnywhere, Category = "Effects")
 	FName TimeToHitParamName;
 
@@ -52,6 +57,8 @@ protected:
 	void Dash();
 
 	void PrimaryInteract();
+
+	void DeductRageElapsed(USAttributeComponent* OwningComp);
 
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
