@@ -63,6 +63,11 @@ protected:
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float Delta);
 
+	UFUNCTION()
+		void OnRageChanged(USAttributeComponent* OwningComp, float NewRage, float Delta);
+
+	void UpdateRageValue(AActor* InstigatorActor, USAttributeComponent* OwningComp, float Delta);
+
 	virtual void PostInitializeComponents() override;
 
 	virtual FVector GetPawnViewLocation() const override;

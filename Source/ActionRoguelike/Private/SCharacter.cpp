@@ -115,7 +115,9 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::BlackHoleAttack()
 {
-	ActionComp->StartActionByName(this, "Blackhole");
+	if (AttributeComp->Rage >= 10) 
+		if (ActionComp->StartActionByName(this, "Blackhole"))
+			AttributeComp->ApplyRageChange(nullptr, -10.0f);
 }
 
 void ASCharacter::Dash()
@@ -137,13 +139,25 @@ void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent*
 	if (Delta < 0.0f)
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParamName, GetWorld()->TimeSeconds);
 
-	// Rage Implementation
-	int32 absDelta = abs(Delta);
+	UpdateRageValue(InstigatorActor, OwningComp, Delta);
 
-	if (OwningComp->Rage + (Delta / 5) <= OwningComp->RageMax)	// If new rage value will be >= maxRage of 100
+	if (NewHealth <= 0.0f && Delta < 0.0f)
 	{
-		OwningComp->Rage += absDelta / 5;
-		UE_LOG(LogTemp, Log, TEXT("Rage Value: %i"), OwningComp->Rage);
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		DisableInput(PC);
+	}
+}
+
+void ASCharacter::UpdateRageValue(AActor* InstigatorActor, USAttributeComponent* OwningComp, float Delta)
+{
+	// Rage Implementation
+	float absDelta = abs(Delta);
+	float rageScaleFactor = 3.5;
+
+	if (OwningComp->Rage + (absDelta / rageScaleFactor) <= OwningComp->RageMax)	// If new rage value will be >= maxRage of 100
+	{
+		OwningComp->ApplyRageChange(InstigatorActor, absDelta / rageScaleFactor);
+		//UE_LOG(LogTemp, Log, TEXT("Rage Value: %i"), OwningComp->Rage);
 	}
 
 	//If rage is > 0, deduct rage every 2 seconds 
@@ -159,12 +173,12 @@ void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent*
 		GetWorldTimerManager().SetTimer(TimeHandle_DeductRage, Delegate, 2.0f, false);
 	}
 	*/
-	if (NewHealth <= 0.0f && Delta < 0.0f)
-	{
-		APlayerController* PC = Cast<APlayerController>(GetController());
-		DisableInput(PC);
-	}
 }
+
+void ASCharacter::OnRageChanged(USAttributeComponent* OwningComp, float NewRage, float Delta)
+{
+}
+
 
 void ASCharacter::DeductRageElapsed(USAttributeComponent* OwningComp)
 {
