@@ -29,7 +29,7 @@ public:
 	FVector WorldOffset;
 
 
-	UPROPERTY(BlueprintReadOnly, Category = "UI")					// So we can use in our BP graph later
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (ExposeOnSpawn = true))					// So we can use in our BP graph later
 	AActor* AttachedActor;		// Note: Reference counting, imagine the Attached actor is our minion_ranged.
 								//       If we mark this variable as UPROP, once the ai gets deleted, the pointer
 								//	     will be set to point to a nullptr so we dont have to worry about 'dangling pointers'

@@ -26,6 +26,8 @@ ASProjectileBase::ASProjectileBase()
 	MoveComp->bInitialVelocityInLocalSpace = true;
 	MoveComp->ProjectileGravityScale = 0.0f;
 	MoveComp->InitialSpeed = 8000;
+	
+	//SetReplicates(true);
 
 	//ImpactShakeInnerRadius = 0.0f;
 	//ImpactShakeOuterRadius = 1500.0f;

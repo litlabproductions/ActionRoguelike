@@ -14,6 +14,8 @@ ASPowerupActor::ASPowerupActor()
 	MeshComp->SetupAttachment(RootComponent);
 
 	RespawnTime = 10.0f;
+
+	SetReplicates(true);
 }
 
 
