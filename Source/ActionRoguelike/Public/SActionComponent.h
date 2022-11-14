@@ -40,12 +40,15 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void ServerStartAction(AActor* Instigator, FName ActionName);
 
+	UFUNCTION(Server, Reliable)
+	void ServerStopAction(AActor* Instigator, FName ActionName);
+
 	/* Granted abilities at game start */
 	UPROPERTY(EditAnywhere, Category = "Actions")
-		TArray<TSubclassOf<USAction>> DefaultActions;
+	TArray<TSubclassOf<USAction>> DefaultActions;
 
 	UPROPERTY(Replicated)
-		TArray<USAction*> Actions;
+	TArray<USAction*> Actions;
 
 
 	virtual void BeginPlay() override;
