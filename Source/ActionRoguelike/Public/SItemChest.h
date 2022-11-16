@@ -18,14 +18,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TargetPitch;
 	void Interact_Implementation(APawn* InstigatorPawn);  // Syntax is because we used "UFUNCTION(BlueprintNativeEvent)"
+	void OnActorLoaded_Implementation();
 
 protected:
 
-	UPROPERTY(ReplicatedUsing = "OnRep_LidOpened", BlueprintReadOnly) // RepNotify
+	UPROPERTY(ReplicatedUsing = "OnRep_LidOpened", BlueprintReadOnly, SaveGame) // RepNotify
 		bool bLidOpened;
 
 	UFUNCTION()
-		void OnRep_LidOpened();
+	void OnRep_LidOpened();
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BaseMesh;

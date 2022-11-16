@@ -27,7 +27,10 @@ void ASItemChest::Interact_Implementation(APawn* InstigatorPawn)  // Syntax is b
 	bLidOpened = !bLidOpened;
 	OnRep_LidOpened();
 }
-
+void ASItemChest::OnActorLoaded_Implementation()
+{
+	OnRep_LidOpened();
+}
 
 void ASItemChest::OnRep_LidOpened()
 {
