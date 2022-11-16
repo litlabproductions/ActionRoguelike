@@ -53,20 +53,17 @@ void ASGameModeBase::StartPlay()
 		// Run EQS to find potential power-up spawn locations
 		UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, PowerupSpawnQuery, this, EEnvQueryRunMode::AllMatching, nullptr);
 		if (ensure(QueryInstance))
-		{
 			QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnPowerupSpawnQueryCompleted);
-		}
 	}
 }
 void ASGameModeBase::HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)
 {
-	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
-
 	ASPlayerState* PS = NewPlayer->GetPlayerState<ASPlayerState>();
-	if (PS)
-	{
+
+	if (ensure(PS))
 		PS->LoadPlayerState(CurrentSaveGame);
-	}
+
+	Super::HandleStartingNewPlayer_Implementation(NewPlayer);
 }
 void ASGameModeBase::KillAll()
 {
