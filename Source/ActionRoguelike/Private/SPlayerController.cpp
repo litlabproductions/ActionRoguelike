@@ -7,3 +7,15 @@ void ASPlayerController::SetPawn(APawn* InPawn)
 
 	OnPawnChanged.Broadcast(InPawn);
 }
+void ASPlayerController::BeginPlayingState()
+{
+	BlueprintBeginPlayingState();
+}
+
+
+void ASPlayerController::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	OnPlayerStateReceived.Broadcast(PlayerState);
+}

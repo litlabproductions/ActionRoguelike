@@ -3,6 +3,7 @@
 
 #include "SPlayerState.h"
 #include "SSaveGame.h"
+#include "Net/UnrealNetwork.h"
 
 void ASPlayerState::AddCredits(int32 Delta)
 {
