@@ -1,5 +1,6 @@
 #include "SActionEffect.h"
 #include "SActionComponent.h"
+#include "GameFramework/GameStateBase.h"
 
 USActionEffect::USActionEffect()
 {
@@ -44,6 +45,18 @@ void USActionEffect::StopAction_Implementation(AActor* Instigator)
 	if (Comp)
 		Comp->RemoveAction(this);   // Remove this action from the respective players ActionComp
 }									// As long as no one is hanging onto this action, UE will delete eventually with GarbCol
+
+float USActionEffect::GetTimeRemaining() const
+{
+	AGameStateBase* GS = GetWorld()->GetGameState<AGameStateBase>();
+	if (GS)
+	{
+		float EndTime = TimeStarted + Duration;
+		return EndTime - GS->GetServerWorldTimeSeconds();
+	}
+
+	return Duration;
+}
 
 void USActionEffect::ExecutePeriodicEffect_Implementation(AActor* Instigator)
 {
