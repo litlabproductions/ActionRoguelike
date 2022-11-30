@@ -16,7 +16,7 @@ USAttributeComponent::USAttributeComponent()
 	RageMax = 100;
 	Rage = 0;
 
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 bool USAttributeComponent::Kill(AActor* InstigatorActor)

@@ -38,7 +38,7 @@ protected:
 	void MulticastHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
 
 	UFUNCTION(NetMulticast, Unreliable) // Used for cosmetic changes only
-		void MulticastRageChanged(AActor* InstigatorActor, float NewRage, float Delta);
+	void MulticastRageChanged(AActor* InstigatorActor, float NewRage, float Delta);
 
 public:	
 

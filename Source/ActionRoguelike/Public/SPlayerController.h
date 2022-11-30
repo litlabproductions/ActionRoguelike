@@ -17,7 +17,7 @@ class ACTIONROGUELIKE_API ASPlayerController : public APlayerController
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
-		TSubclassOf<UUserWidget> PauseMenuClass;
+		TSubclassOf<UUserWidget> PauseMenuClass ;
 
 	UPROPERTY()
 		UUserWidget* PauseMenuInstance;
